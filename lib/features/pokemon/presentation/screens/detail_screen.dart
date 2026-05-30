@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/pokemon.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/string_extensions.dart';
 import '../../../../utils/type_colors.dart';
 import '../bloc/pokemon_detail_cubit.dart';
 import '../bloc/pokemon_detail_state.dart';
@@ -18,7 +19,7 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_capitalized(name)),
+        title: Text(name.capitalized),
       ),
       body: BlocBuilder<PokemonDetailCubit, PokemonDetailState>(
         builder: (context, state) => switch (state) {
@@ -32,9 +33,6 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
-
-  String _capitalized(String s) =>
-      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 }
 
 class _DetailBody extends StatelessWidget {
@@ -51,23 +49,23 @@ class _DetailBody extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            color: primaryColor.withOpacity(0.2),
+            color: primaryColor.withValues(alpha: 0.2),
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
                 CachedNetworkImage(
                   imageUrl: pokemon.imageUrl,
                   height: 180,
-                  placeholder: (_, __) => const SizedBox(
+                  placeholder: (_, _) => const SizedBox(
                     height: 180,
                     child: Center(child: CircularProgressIndicator()),
                   ),
-                  errorWidget: (_, __, ___) =>
+                  errorWidget: (_, _, _) =>
                       const Icon(Icons.catching_pokemon, size: 180),
                 ),
                 const SizedBox(height: 8),
                 Text(pokemon.formattedId, style: AppTextStyles.detailId),
-                Text(_capitalized(pokemon.name), style: AppTextStyles.detailName),
+                Text(pokemon.name.capitalized, style: AppTextStyles.detailName),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -106,9 +104,6 @@ class _DetailBody extends StatelessWidget {
       ),
     );
   }
-
-  String _capitalized(String s) =>
-      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 }
 
 class _TypeChip extends StatelessWidget {

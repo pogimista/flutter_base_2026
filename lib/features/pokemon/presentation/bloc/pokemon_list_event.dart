@@ -1,7 +1,11 @@
-sealed class PokemonListEvent {
+import 'package:equatable/equatable.dart';
+
+sealed class PokemonListEvent extends Equatable {
   const PokemonListEvent();
 }
 
-class LoadPokemonList extends PokemonListEvent {
+final class LoadPokemonList extends PokemonListEvent {
   const LoadPokemonList();
+  @override
+  List<Object?> get props => [];
 }

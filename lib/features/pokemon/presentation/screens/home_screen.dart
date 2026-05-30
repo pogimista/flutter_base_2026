@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_pokemon_detail.dart';
+import '../../../../core/di/service_locator.dart' as di;
 import '../bloc/pokemon_detail_cubit.dart';
 import '../bloc/pokemon_list_bloc.dart';
-import '../bloc/pokemon_list_event.dart';
 import '../bloc/pokemon_list_state.dart';
 import '../widgets/pokemon_card.dart';
 import 'detail_screen.dart';
@@ -40,9 +39,8 @@ class HomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => BlocProvider(
-                      create: (_) => PokemonDetailCubit(
-                        context.read<GetPokemonDetail>(),
-                      )..load(p.id),
+                      create: (_) =>
+                          di.sl<PokemonDetailCubit>()..load(p.id),
                       child: DetailScreen(id: p.id, name: p.name),
                     ),
                   ),

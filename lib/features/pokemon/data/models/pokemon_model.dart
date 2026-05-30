@@ -29,4 +29,26 @@ class PokemonModel extends Pokemon {
       },
     );
   }
+
+  factory PokemonModel.fromCache(Map<String, dynamic> json) {
+    return PokemonModel(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      imageUrl: json['imageUrl'] as String,
+      types: List<String>.from(json['types'] as List),
+      height: json['height'] as int,
+      weight: json['weight'] as int,
+      stats: Map<String, int>.from(json['stats'] as Map),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'imageUrl': imageUrl,
+        'types': types,
+        'height': height,
+        'weight': weight,
+        'stats': stats,
+      };
 }

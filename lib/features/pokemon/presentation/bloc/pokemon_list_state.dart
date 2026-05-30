@@ -1,21 +1,31 @@
-sealed class PokemonListState {
+import 'package:equatable/equatable.dart';
+
+sealed class PokemonListState extends Equatable {
   const PokemonListState();
 }
 
-class PokemonListInitial extends PokemonListState {
+final class PokemonListInitial extends PokemonListState {
   const PokemonListInitial();
+  @override
+  List<Object?> get props => [];
 }
 
-class PokemonListLoading extends PokemonListState {
+final class PokemonListLoading extends PokemonListState {
   const PokemonListLoading();
+  @override
+  List<Object?> get props => [];
 }
 
-class PokemonListSuccess extends PokemonListState {
+final class PokemonListSuccess extends PokemonListState {
   final List<({int id, String name})> pokemons;
   const PokemonListSuccess(this.pokemons);
+  @override
+  List<Object?> get props => [pokemons];
 }
 
-class PokemonListFailure extends PokemonListState {
+final class PokemonListFailure extends PokemonListState {
   final String message;
   const PokemonListFailure(this.message);
+  @override
+  List<Object?> get props => [message];
 }
