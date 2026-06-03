@@ -155,36 +155,43 @@ class _StatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 140,
-            child: Text(
-              _formatStatName(name),
-              style: context.labelMedium.copyWith(
-                color: AppColors.secondary,
-                fontWeight: FontWeight.w500,
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: () => showDialog(
+        context: context,
+        builder: (_) => _StatDialog(name: name, value: value, color: color),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 140,
+              child: Text(
+                _formatStatName(name),
+                style: context.labelMedium.copyWith(
+                  color: AppColors.secondary,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 36,
-            child: Text(value.toString(), style: context.labelMedium),
-          ),
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: value / 255,
-                backgroundColor: AppColors.statBarBg,
-                valueColor: AlwaysStoppedAnimation(color),
-                minHeight: 8,
+            SizedBox(
+              width: 36,
+              child: Text(value.toString(), style: context.labelMedium),
+            ),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: value / 255,
+                  backgroundColor: AppColors.statBarBg,
+                  valueColor: AlwaysStoppedAnimation(color),
+                  minHeight: 8,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -199,5 +206,104 @@ class _StatRow extends StatelessWidget {
       'speed': 'Speed',
     };
     return names[raw] ?? raw;
+  }
+}
+
+// ── Stat dialog ────────────────────────────────────────────────────────────
+
+class _StatDialog extends StatelessWidget {
+  final String name;
+  final int value;
+  final Color color;
+
+  const _StatDialog({
+    required this.name,
+    required this.value,
+    required this.color,
+  });
+
+  static const _descriptions = {
+    'hp': 'Hit Points — determines how much damage a Pokémon can receive before fainting.',
+    'attack': 'Determines the power of physical moves such as Tackle and Slash.',
+    'defense': 'Reduces the damage received from physical moves.',
+    'special-attack': 'Determines the power of special moves such as Flamethrower and Thunderbolt.',
+    'special-defense': 'Reduces the damage received from special moves.',
+    'speed': 'Determines which Pokémon acts first each turn. Higher is faster.',
+  };
+
+  static const _labels = {
+    'hp': 'HP',
+    'attack': 'Attack',
+    'defense': 'Defense',
+    'special-attack': 'Sp. Attack',
+    'special-defense': 'Sp. Defense',
+    'speed': 'Speed',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final label = _labels[name] ?? name;
+    final description = _descriptions[name] ?? 'No description available.';
+    final rating = _rating(value);
+
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: Row(
+        children: [
+          Container(
+            width: 12,
+            height: 12,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 8),
+          Text(label),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(description, style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('$value / 255', style: Theme.of(context).textTheme.labelMedium),
+              Text(
+                rating,
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: LinearProgressIndicator(
+              value: value / 255,
+              backgroundColor: AppColors.statBarBg,
+              valueColor: AlwaysStoppedAnimation(color),
+              minHeight: 10,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Got it'),
+        ),
+      ],
+    );
+  }
+
+  String _rating(int v) {
+    if (v >= 150) return 'Exceptional';
+    if (v >= 100) return 'Great';
+    if (v >= 70) return 'Good';
+    if (v >= 40) return 'Average';
+    return 'Low';
   }
 }
