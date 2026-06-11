@@ -15,6 +15,11 @@ import '../../features/pokemon/domain/usecases/get_pokemon_detail.dart';
 import '../../features/pokemon/domain/usecases/get_pokemon_list.dart';
 import '../../features/pokemon/presentation/bloc/pokemon_detail_cubit.dart';
 import '../../features/pokemon/presentation/bloc/pokemon_list_bloc.dart';
+import '../../features/scanner/data/datasources/scanner_datasource.dart';
+import '../../features/scanner/data/repositories/scanner_repository_impl.dart';
+import '../../features/scanner/domain/repositories/scanner_repository.dart';
+import '../../features/scanner/domain/usecases/classify_image.dart';
+import '../../features/scanner/presentation/bloc/scanner_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -58,8 +63,16 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetPokemonDetail(sl()));
   sl.registerLazySingleton(() => GetNearbyPokemon(sl()));
 
+  // Scanner (Edge AI)
+  sl.registerLazySingleton<ScannerDatasource>(() => ScannerDatasourceImpl());
+  sl.registerLazySingleton<ScannerRepository>(
+    () => ScannerRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => ClassifyImage(sl()));
+
   // BLoC / Cubit — factory so each screen gets a fresh instance
   sl.registerFactory(() => PokemonListBloc(sl()));
   sl.registerFactory(() => PokemonDetailCubit(sl()));
   sl.registerFactory(() => MapCubit(sl()));
+  sl.registerFactory(() => ScannerCubit(sl()));
 }

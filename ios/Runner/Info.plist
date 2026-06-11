@@ -4,6 +4,10 @@
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app shows Pokémon near your current location.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to take photos for Pokémon identification.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to pick photos for Pokémon identification.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

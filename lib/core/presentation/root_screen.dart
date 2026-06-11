@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../features/map/presentation/screens/map_screen.dart';
 import '../../../features/pokemon/presentation/screens/home_screen.dart';
+import '../../../features/scanner/presentation/screens/scanner_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -20,6 +21,7 @@ class _RootScreenState extends State<RootScreen> {
         children: const [
           HomeScreen(),
           MapScreen(),
+          ScannerScreen(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -35,6 +37,11 @@ class _RootScreenState extends State<RootScreen> {
             icon: Icon(Icons.map_outlined),
             selectedIcon: Icon(Icons.map),
             label: 'Nearby',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.document_scanner_outlined),
+            selectedIcon: Icon(Icons.document_scanner),
+            label: 'Scanner',
           ),
         ],
       ),
