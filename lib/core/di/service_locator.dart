@@ -16,6 +16,7 @@ import '../../features/pokemon/domain/usecases/get_pokemon_list.dart';
 import '../../features/pokemon/presentation/bloc/pokemon_detail_cubit.dart';
 import '../../features/pokemon/presentation/bloc/pokemon_list_bloc.dart';
 import '../../features/scanner/data/datasources/scanner_datasource.dart';
+import '../../features/scanner/data/datasources/tflite_scanner_datasource.dart';
 import '../../features/scanner/data/repositories/scanner_repository_impl.dart';
 import '../../features/scanner/domain/repositories/scanner_repository.dart';
 import '../../features/scanner/domain/usecases/classify_image.dart';
@@ -63,8 +64,10 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetPokemonDetail(sl()));
   sl.registerLazySingleton(() => GetNearbyPokemon(sl()));
 
-  // Scanner (Edge AI)
-  sl.registerLazySingleton<ScannerDatasource>(() => ScannerDatasourceImpl());
+  // Scanner (Edge AI) — TFLite classifier with ML Kit fallback
+  sl.registerLazySingleton<ScannerDatasource>(
+    () => TfliteScannerDatasource(ScannerDatasourceImpl()),
+  );
   sl.registerLazySingleton<ScannerRepository>(
     () => ScannerRepositoryImpl(sl()),
   );

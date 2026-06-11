@@ -49,6 +49,11 @@ android {
         }
     }
 
+    androidResources {
+        // Prevent .tflite from being compressed so it loads faster at runtime
+        noCompress += "tflite"
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
