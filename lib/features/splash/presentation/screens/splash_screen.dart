@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/config/app_config.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -51,13 +52,13 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
-                  Icons.catching_pokemon,
+                  Icons.rocket_launch,
                   size: 100,
                   color: Colors.white,
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Pokédex',
+                  AppConfig.instance.appName,
                   style: Theme.of(context).textTheme.displayMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

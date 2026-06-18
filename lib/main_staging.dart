@@ -4,8 +4,7 @@ import 'main.dart' as app;
 void main() async {
   AppConfig.instance = const AppConfig(
     flavor: Flavor.staging,
-    appName: 'Pokédex Staging',
-    apiBaseUrl: 'https://pokeapi.co/api/v2',
+    appName: 'My App Staging',
   );
   await app.bootstrap();
 }

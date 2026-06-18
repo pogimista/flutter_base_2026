@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.pokemon_flutter"
+    namespace = "com.example.flutter_base"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -14,8 +14,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    buildFeatures {
+        resValues = true
+    }
+
     defaultConfig {
-        applicationId = "com.example.pokemon_flutter"
+        applicationId = "com.example.flutter_base"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -29,29 +33,18 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            resValue("string", "app_name", "Pokédex Dev")
-            manifestPlaceholders["googleMapsApiKey"] =
-                System.getenv("GOOGLE_MAPS_API_KEY_DEV") ?: ""
+            resValue("string", "app_name", "My App Dev")
         }
         create("staging") {
             dimension = "environment"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-            resValue("string", "app_name", "Pokédex Staging")
-            manifestPlaceholders["googleMapsApiKey"] =
-                System.getenv("GOOGLE_MAPS_API_KEY_STAGING") ?: ""
+            resValue("string", "app_name", "My App Staging")
         }
         create("prod") {
             dimension = "environment"
-            resValue("string", "app_name", "Pokédex")
-            manifestPlaceholders["googleMapsApiKey"] =
-                System.getenv("GOOGLE_MAPS_API_KEY") ?: ""
+            resValue("string", "app_name", "My App")
         }
-    }
-
-    androidResources {
-        // Prevent .tflite from being compressed so it loads faster at runtime
-        noCompress += "tflite"
     }
 
     buildTypes {

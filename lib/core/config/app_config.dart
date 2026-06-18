@@ -8,7 +8,10 @@ class AppConfig {
   const AppConfig({
     required this.flavor,
     required this.appName,
-    required this.apiBaseUrl,
+    this.apiBaseUrl = const String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: 'https://api.example.com',
+    ),
   });
 
   // ignore: prefer_constructors_over_static_methods
